@@ -9,7 +9,7 @@ N/A
 
 # Usage
 
-You can access the website here:
+You can access the website here: https://rodrigo0599.github.io/Work-Day-Scheduler/
 
 ![main page](./Assets/05-third-party-apis-homework-demo.gif)
 
