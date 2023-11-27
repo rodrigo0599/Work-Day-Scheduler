@@ -2,42 +2,33 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 $(function () {
-  // Add a listener for click events on the save button.
   $(".saveBtn").on("click", function () {
-    // Get the id of the containing time-block
     var timeBlockId = $(this).parent().attr("id");
-
-    // Get the user input from the textarea
     var userInput = $(this).siblings(".description").val();
-
-    // Save the user input in local storage using the time-block id as the key
     localStorage.setItem(timeBlockId, userInput);
   });
 
-  // Apply the past, present, or future class to each time block
+  for (var i = 9; i < 18; i++) {
+    var timeBlockId = "#hour-" + i;
+    var savedUserInput = localStorage.getItem(timeBlockId);
+    $(timeBlockId).children(".description").val(savedUserInput);
+  }
+  // Add code to color-code each time-block based on whether it is in the past,
+  // present, or future based on the current time. HINT: How can the current
+  // time be compared to the time represented by each time-block?
+  var currentHour = dayjs().hour();
   $(".time-block").each(function () {
-    var timeBlockId = $(this).attr("id");
-    var currentHour = dayjs().format("H");
-
-    if (timeBlockId < currentHour) {
+    var timeBlockHour = parseInt($(this).attr("id").split("-")[1]);
+    if (timeBlockHour < currentHour) {
       $(this).addClass("past");
-    } else if (timeBlockId === currentHour) {
+    } else if (timeBlockHour === currentHour) {
       $(this).addClass("present");
     } else {
       $(this).addClass("future");
     }
   });
 
-  // Get the user input from local storage and set the values of the corresponding textarea elements
-  $(".time-block").each(function () {
-    var timeBlockId = $(this).attr("id");
-    var userInput = localStorage.getItem(timeBlockId);
-
-    if (userInput) {
-      $(this).find(".description").val(userInput);
-    }
-  });
-
-  // Display the current date in the header of the page
-  $("#currentDay").text(dayjs().format("dddd, MMMM D, YYYY, [at] hh:mm:ss A"));
+  // Add code to display the current date in the header of the page.
+  var currentDate = dayjs().format("dddd, MMMM D, YYYY, [at] hh:mm:ss A");
+  $("#currentDay").text(currentDate);
 });
